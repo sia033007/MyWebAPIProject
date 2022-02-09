@@ -21,7 +21,7 @@ namespace MyMVCProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(User user)
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost:42045/api/user/register");
+            var request = new HttpRequestMessage(HttpMethod.Post, "http://amin007-001-site1.htempurl.com/api/user/register");
             if(user != null)
             {
                 request.Content = new StringContent(JsonConvert.SerializeObject(user),
@@ -39,7 +39,7 @@ namespace MyMVCProject.Controllers
             }
             else if(response.StatusCode == System.Net.HttpStatusCode.BadRequest)
             {
-                TempData["badrequest"] = "User with the same name already exists!";
+                TempData["badrequest"] = "User With The Same Name Already Exists !";
             }
             return View(user);
         }
@@ -48,7 +48,7 @@ namespace MyMVCProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(User user)
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost:42045/api/user/login");
+            var request = new HttpRequestMessage(HttpMethod.Post, "http://amin007-001-site1.htempurl.com/api/user/login");
             if (user != null)
             {
                 request.Content = new StringContent(JsonConvert.SerializeObject(user),
@@ -58,18 +58,18 @@ namespace MyMVCProject.Controllers
             HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                TempData["success"] = "Successfully logged in!";
+                TempData["success"] = "Successfully Logged In !";
                 var apiString = await response.Content.ReadAsStringAsync();
                 user = JsonConvert.DeserializeObject<User>(apiString);
                 return RedirectToAction("Index", "Home");
             }
             else if(response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                TempData["notfound"] = "Not found such a user!";
+                TempData["notfound"] = "Not Found Such a User";
             }
             else if(response.StatusCode == System.Net.HttpStatusCode.BadRequest)
             {
-                TempData["badrequest"] = "Wrong Password!";
+                TempData["badrequest"] = "Wrong Password !";
             }
             return View(user);
 

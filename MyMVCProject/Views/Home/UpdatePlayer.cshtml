@@ -2,7 +2,10 @@
 @{
     ViewData["title"] = "Update Player";
 }
-<h2>Update Player</h2>
+<div class="text-end">
+    <a asp-action="GetAllPlayers" class="btn btn-outline-primary mt-2 w-25">Back</a>
+</div>
+<h2 class="h3 mb-3 text-muted text-center fw-bold">Update Player</h2>
 <form class="mt-3" method="post">
     <label asp-for="Name"></label>
     <div class="input-group">
@@ -19,7 +22,7 @@
         <input asp-for="Nationality" class="form-control" />
     </div>
     <span class="text-danger" asp-validation-for="Nationality"></span> <br />
-    <button class="btn btn-primary mt-2">Update Player</button>
+    <button class="btn btn-primary mt-2 h-100">Update Player</button>
 
 </form>
 

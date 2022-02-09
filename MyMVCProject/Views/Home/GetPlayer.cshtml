@@ -2,9 +2,11 @@
 @{
     ViewData["title"] = "Get Player";
 }
-<h2>Get Player By Id</h2>
+<div class="text-end">
+    <a asp-action="GetAllPlayers" class="btn btn-outline-primary mt-2 w-25">Back</a>
+</div>
+<h2 class="h3 mb-3 text-muted text-center fw-bold">Get Player By Id</h2>
 <form class="mt-3" method="post">
-    <label for="id">Id :</label>
     <div class="input-group">
         <input type="number" class="form-control" name="id" />
     </div> <br />

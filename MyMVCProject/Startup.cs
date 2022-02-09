@@ -27,9 +27,10 @@ namespace MyMVCProject
         {
             services.AddControllersWithViews();
             services.AddHttpClient();
+            services.AddHttpContextAccessor();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSession(s=> {
-                s.IdleTimeout = TimeSpan.FromMinutes(60);
+                s.IdleTimeout = TimeSpan.FromMinutes(1);
                 s.Cookie.HttpOnly = true;
                 s.Cookie.IsEssential = true;
             
@@ -53,9 +54,9 @@ namespace MyMVCProject
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseSession();
 
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

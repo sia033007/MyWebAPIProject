@@ -55,7 +55,7 @@ namespace MyMVCProject.Controllers
             }
             else if(response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                TempData["notfound"] = "Not found such a player";
+                TempData["notfound"] = "Not Found Such a Player";
             }
             return View(player);
         }

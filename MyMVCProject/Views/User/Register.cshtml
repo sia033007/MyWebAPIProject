@@ -2,15 +2,7 @@
 @{ 
     ViewData["title"] = "Register";
 }
-@if(ViewBag.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                <h2 class="text-center text-success">@ViewBag.Status - Registered Successfully! -</h2>
-            }
-            else
-            {
-                <h2 class="text-center text-danger">@ViewBag.StatusCode</h2>
-            }
-<h2>Register</h2>
+<h2 class="h3 mb-3 text-muted text-center fw-bold">Register</h2>
 <div class="container">
     <div class="row justify-content-center align-items-center">
         <div class="col-sm-8 col-md-6">
