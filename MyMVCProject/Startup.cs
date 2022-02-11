@@ -30,7 +30,7 @@ namespace MyMVCProject
             services.AddHttpContextAccessor();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSession(s=> {
-                s.IdleTimeout = TimeSpan.FromMinutes(1);
+                s.IdleTimeout = TimeSpan.FromMinutes(5);
                 s.Cookie.HttpOnly = true;
                 s.Cookie.IsEssential = true;
             

@@ -21,7 +21,7 @@ namespace MyMVCProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(User user)
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, "http://amin007-001-site1.htempurl.com/api/user/register");
+            var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost:42045/api/user/register");
             if(user != null)
             {
                 request.Content = new StringContent(JsonConvert.SerializeObject(user),
@@ -32,7 +32,6 @@ namespace MyMVCProject.Controllers
             if(response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 TempData["success"] = "Registered Successfully!";
-                HttpContext.Session.SetString("User", JsonConvert.SerializeObject(user));
                 var apiString = await response.Content.ReadAsStringAsync();
                 user = JsonConvert.DeserializeObject<User>(apiString);
                 return RedirectToAction("Index", "Home");
@@ -48,7 +47,7 @@ namespace MyMVCProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(User user)
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, "http://amin007-001-site1.htempurl.com/api/user/login");
+            var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost:42045/api/user/login");
             if (user != null)
             {
                 request.Content = new StringContent(JsonConvert.SerializeObject(user),
@@ -58,9 +57,10 @@ namespace MyMVCProject.Controllers
             HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                TempData["success"] = "Successfully Logged In !";
+                TempData["loginsuccess"] = "Successfully Logged In !";
                 var apiString = await response.Content.ReadAsStringAsync();
                 user = JsonConvert.DeserializeObject<User>(apiString);
+                HttpContext.Session.SetString("User", JsonConvert.SerializeObject(user));
                 return RedirectToAction("Index", "Home");
             }
             else if(response.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -73,6 +73,12 @@ namespace MyMVCProject.Controllers
             }
             return View(user);
 
+        }
+        public IActionResult LogOut()
+        {
+            HttpContext.Session.Clear();
+            TempData["success"] = "Successfully Logged Out";
+            return RedirectToAction("Index", "Home");
         }
         
     }
