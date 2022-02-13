@@ -29,6 +29,10 @@
                     </div>
                 </div>
                 <span class="text-danger" asp-validation-for="Password"></span> <br />
+                <div class="form-check mb-3">
+                    <input type="checkbox" asp-for="RememberMe" class="form-check-input" />
+                    <label asp-for="RememberMe" class="form-check-label"></label>
+                </div>
                 <button class="btn btn-primary text-center mt-2">Login</button>
 
             </form>

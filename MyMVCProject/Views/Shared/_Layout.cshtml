@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http;
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -13,9 +12,6 @@
 </head>
 <body>
     <header>
-        @{ 
-            var user = Context.Session.GetString("User");
-        }
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3 text-center text-sm-start">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MyMVCProject</a>
@@ -36,15 +32,10 @@
                         </li>
                     </ul>
                 </div>
+                <div class="ms-auto">
+                    <partial name="_LoginStatusPartial" />
+                </div>
             </div>
-            @if (user == null)
-            {
-                @await Component.InvokeAsync("UserComponent")
-            }
-            else
-            {
-                @await Component.InvokeAsync("UserLogout")
-            }
         </nav>
     </header>
     <div class="container">

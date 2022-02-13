@@ -29,11 +29,14 @@ namespace MyMVCProject
             services.AddHttpClient();
             services.AddHttpContextAccessor();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSession(s=> {
-                s.IdleTimeout = TimeSpan.FromMinutes(5);
-                s.Cookie.HttpOnly = true;
-                s.Cookie.IsEssential = true;
-            
+            services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", options =>
+            {
+                options.Cookie.Name = "MyCookie";
+                options.AccessDeniedPath = "/Home/AccessDenied";
+                options.LoginPath = "/Home/LoginRequired";
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+
+
             });
         }
 
@@ -54,9 +57,9 @@ namespace MyMVCProject
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication();
 
             app.UseAuthorization();
-            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,0 +1,15 @@
+﻿@if (User.Identity.IsAuthenticated)
+{
+    <div class="d-inline-flex">
+        <div class="text-warning fw-bold h5 mt-2 mx-2">Welcome @User.Identity.Name</div>
+        <a asp-controller="User" asp-action="LogOut" class="btn btn-primary">Logout</a>
+    </div>
+}
+else
+{
+    <div class="d-inline-flex">
+        <a asp-controller="User" asp-action="Login" class="btn btn-primary">Login</a>
+        <a asp-controller="User" asp-action="Register" class="btn btn-primary mx-2">Register</a>
+    </div>
+
+}

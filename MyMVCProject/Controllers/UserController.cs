@@ -7,6 +7,8 @@ using MyMVCProject.Models;
 using System.Net.Http;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 
 namespace MyMVCProject.Controllers
 {
@@ -21,7 +23,7 @@ namespace MyMVCProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(User user)
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost:42045/api/user/register");
+            var request = new HttpRequestMessage(HttpMethod.Post, "http://amin007-001-site1.htempurl.com/api/user/register");
             if(user != null)
             {
                 request.Content = new StringContent(JsonConvert.SerializeObject(user),
@@ -47,7 +49,7 @@ namespace MyMVCProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(User user)
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost:42045/api/user/login");
+            var request = new HttpRequestMessage(HttpMethod.Post, "http://amin007-001-site1.htempurl.com/api/user/login");
             if (user != null)
             {
                 request.Content = new StringContent(JsonConvert.SerializeObject(user),
@@ -60,7 +62,20 @@ namespace MyMVCProject.Controllers
                 TempData["loginsuccess"] = "Successfully Logged In !";
                 var apiString = await response.Content.ReadAsStringAsync();
                 user = JsonConvert.DeserializeObject<User>(apiString);
-                HttpContext.Session.SetString("User", JsonConvert.SerializeObject(user));
+
+                List<Claim> claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.UserName)
+
+                };
+                var identity = new ClaimsIdentity(claims, "MyCookieAuth");
+                ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = user.RememberMe
+
+                };
+                await HttpContext.SignInAsync("MyCookieAuth", principal, authProperties);
                 return RedirectToAction("Index", "Home");
             }
             else if(response.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -74,9 +89,9 @@ namespace MyMVCProject.Controllers
             return View(user);
 
         }
-        public IActionResult LogOut()
+        public async Task<IActionResult> LogOut()
         {
-            HttpContext.Session.Clear();
+            await HttpContext.SignOutAsync("MyCookieAuth");
             TempData["success"] = "Successfully Logged Out";
             return RedirectToAction("Index", "Home");
         }

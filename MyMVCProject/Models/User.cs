@@ -19,5 +19,7 @@ namespace MyMVCProject.Models
         [MaxLength(50)]
         [DataType(DataType.EmailAddress)]
         public string EmailAddress { get; set; }
+        [Display(Name ="Remember Me")]
+        public bool RememberMe { get; set; }
     }
 }
