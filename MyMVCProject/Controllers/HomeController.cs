@@ -30,7 +30,7 @@ namespace MyMVCProject.Controllers
         public async Task<IActionResult> GetAllPlayers()
         {
             List<Player> players = new List<Player>();
-            var request = new HttpRequestMessage(HttpMethod.Get, "http://amin007-001-site1.htempurl.com/api/player");
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:42045/api/player");
             var client = _clientFactory.CreateClient();
             HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
             if(response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -45,7 +45,7 @@ namespace MyMVCProject.Controllers
         public async Task<IActionResult> GetPlayer(int id)
         {
             Player player = new Player();
-            var request = new HttpRequestMessage(HttpMethod.Get, "http://amin007-001-site1.htempurl.com/api/player/" + id);
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:42045/api/player/" + id);
             var client = _clientFactory.CreateClient();
             HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
             if(response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -65,7 +65,7 @@ namespace MyMVCProject.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPlayer(Player player)
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, "http://amin007-001-site1.htempurl.com/api/player/");
+            var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost:42045/api/player/");
             if(player != null)
             {
                 request.Content = new StringContent(JsonConvert.SerializeObject(player),
@@ -93,7 +93,7 @@ namespace MyMVCProject.Controllers
         [HttpPost]
         public async Task<IActionResult> DeletePlayer(int id)
         {
-            var request = new HttpRequestMessage(HttpMethod.Delete, "http://amin007-001-site1.htempurl.com/api/player/" + id);
+            var request = new HttpRequestMessage(HttpMethod.Delete, "http://localhost:42045/api/player/" + id);
             var client = _clientFactory.CreateClient();
             HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
             if(response.StatusCode == System.Net.HttpStatusCode.NoContent)
@@ -110,7 +110,7 @@ namespace MyMVCProject.Controllers
         public async Task<IActionResult> UpdatePlayer(int id)
         {
             Player player = new Player();
-            var request = new HttpRequestMessage(HttpMethod.Get, "http://amin007-001-site1.htempurl.com/api/player/" + id);
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:42045/api/player/" + id);
             var client = _clientFactory.CreateClient();
             HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
             if(response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -124,7 +124,7 @@ namespace MyMVCProject.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdatePlayer(Player player)
         {
-            var request = new HttpRequestMessage(HttpMethod.Patch, "http://amin007-001-site1.htempurl.com/api/player/" + player.Id);
+            var request = new HttpRequestMessage(HttpMethod.Patch, "http://localhost:42045/api/player/" + player.Id);
             if(player != null)
             {
                 request.Content = new StringContent(JsonConvert.SerializeObject(player),

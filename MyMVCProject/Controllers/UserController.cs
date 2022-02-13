@@ -23,7 +23,7 @@ namespace MyMVCProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(User user)
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, "http://amin007-001-site1.htempurl.com/api/user/register");
+            var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost:42045/api/user/register");
             if(user != null)
             {
                 request.Content = new StringContent(JsonConvert.SerializeObject(user),
@@ -49,7 +49,7 @@ namespace MyMVCProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(User user)
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, "http://amin007-001-site1.htempurl.com/api/user/login");
+            var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost:42045/api/user/login");
             if (user != null)
             {
                 request.Content = new StringContent(JsonConvert.SerializeObject(user),
