@@ -10,6 +10,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MyMVCProject.Models;
+using Microsoft.AspNetCore.Identity;
+using MyMVCProject.Data;
+using Microsoft.EntityFrameworkCore;
+using MyMVCProject.Mapping;
 
 namespace MyMVCProject
 {
@@ -26,18 +31,40 @@ namespace MyMVCProject
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddHttpClient();
-            services.AddHttpContextAccessor();
-            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", options =>
-            {
-                options.Cookie.Name = "MyCookie";
-                options.AccessDeniedPath = "/Home/AccessDenied";
-                options.LoginPath = "/Home/LoginRequired";
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+            services.AddDbContext<ApplicationDbContext>(options=> options.UseSqlServer
+            (Configuration.GetConnectionString("DefaultConnection")));
+            services.AddHttpClient("MyClient", options=> {
+
+                options.BaseAddress = new Uri("http://localhost:42045/api/");
 
 
             });
+            services.AddIdentity<MyUser, IdentityRole>(options=> {
+
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.User.RequireUniqueEmail = true;
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+            
+            }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+            services.AddHttpContextAccessor();
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddAutoMapper(typeof(UserMapper));
+            services.ConfigureApplicationCookie(options=> {
+
+                options.AccessDeniedPath = "/Home/AccessDenied";
+                options.LoginPath = "/Home/LoginRequired";
+            });
+            //services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", options =>
+            //{
+            //    options.Cookie.Name = "MyCookie";
+            //    options.AccessDeniedPath = "/Home/AccessDenied";
+            //    options.LoginPath = "/Home/LoginRequired";
+            //    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+
+
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

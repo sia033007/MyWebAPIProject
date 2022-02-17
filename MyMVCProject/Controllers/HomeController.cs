@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace MyMVCProject.Controllers
@@ -30,6 +31,8 @@ namespace MyMVCProject.Controllers
         public async Task<IActionResult> GetAllPlayers()
         {
             List<Player> players = new List<Player>();
+            //var client = _clientFactory.CreateClient("MyClient");
+            //players = await client.GetFromJsonAsync<List<Player>>("player");
             var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:42045/api/player");
             var client = _clientFactory.CreateClient();
             HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
@@ -65,6 +68,8 @@ namespace MyMVCProject.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPlayer(Player player)
         {
+            //var client = _clientFactory.CreateClient("MyClient");
+            //var response = await client.PostAsJsonAsync("player", player);
             var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost:42045/api/player/");
             if(player != null)
             {
