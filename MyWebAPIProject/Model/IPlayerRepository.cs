@@ -13,5 +13,6 @@ namespace MyWebAPIProject.Model
         Task<Player> AddPlayer(Player player);
         Task DeletePlayer(int id);
         Task<bool> SamePlayerExists(string playerName);
+        string CreateToken();
     }
 }

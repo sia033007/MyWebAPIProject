@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 using MyWebAPIProject.Model;
 using MyWebAPIProject.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MyWebAPIProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PlayerController : ControllerBase
     {
         private readonly IPlayerRepository _playerRepository;
@@ -61,6 +63,10 @@ namespace MyWebAPIProject.Controllers
             if (player.Id != id)
             {
                 return BadRequest();
+            }
+            if(await _playerRepository.SamePlayerExists(player.Name))
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
             }
             if (ModelState.IsValid)
                 await _playerRepository.UpdatePlayer(player);

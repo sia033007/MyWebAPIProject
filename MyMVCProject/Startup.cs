@@ -46,6 +46,7 @@ namespace MyMVCProject
                 options.User.RequireUniqueEmail = true;
                 options.Lockout.MaxFailedAccessAttempts = 5;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                options.SignIn.RequireConfirmedEmail = true;
             
             }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
             services.AddHttpContextAccessor();
@@ -56,6 +57,12 @@ namespace MyMVCProject
                 options.AccessDeniedPath = "/Home/AccessDenied";
                 options.LoginPath = "/Home/LoginRequired";
             });
+            services.AddSession(options=> {
+
+                options.IdleTimeout = TimeSpan.FromMinutes(15);
+            });
+            services.Configure<SmtpSettings>(Configuration.GetSection("SMTP"));
+            //services.AddScoped<IEmailSender, EmailSender>();
             //services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", options =>
             //{
             //    options.Cookie.Name = "MyCookie";
@@ -84,6 +91,7 @@ namespace MyMVCProject
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
             app.UseAuthentication();
 
             app.UseAuthorization();

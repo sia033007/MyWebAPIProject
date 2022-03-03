@@ -1,6 +1,16 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
-
+/*@font-face {
+    font-family: 'badr';
+    src: url(~/font/pixelboy-BBadr.eot);*/ /* IE9 Compat Modes */
+    /*src: url(~/font/pixelboy-BBadr.eot?#iefix) format('embedded-opentype'),*/ /* IE6-IE8 */
+    /*url('webfont.woff2') format('woff2'),*/ /* Super Modern Browsers */
+    /*url(~/font/pixelboy-BBadr.woff) format('woff'),*/ /* Pretty Modern Browsers */
+    /*url(~/font/pixelboy-BBadr.ttf) format('truetype');*/ /* Safari, Android, iOS */
+    /*url('webfont.svg#svgFontName') format('svg');*/ /* Legacy iOS */
+    /*font-size:medium;
+    font-weight:normal
+}*/
 a.navbar-brand {
   white-space: normal;
   text-align: center;

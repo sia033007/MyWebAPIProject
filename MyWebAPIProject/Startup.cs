@@ -15,6 +15,8 @@ using MyWebAPIProject.Data;
 using MyWebAPIProject.Model;
 using Microsoft.EntityFrameworkCore;
 using MyWebAPIProject.Mapping;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace MyWebAPIProject
 {
@@ -41,6 +43,28 @@ namespace MyWebAPIProject
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyWebAPIProject", Version = "v1" });
             });
+            services.AddAuthentication(options =>
+            {
+
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(options =>
+            {
+
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(
+                        Configuration.GetSection("AppSettings:Token").Value)),
+                    ValidateLifetime = true,
+                    ValidateAudience = false,
+                    ValidateIssuer = false
+
+                };
+
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +80,7 @@ namespace MyWebAPIProject
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

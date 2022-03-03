@@ -1,19 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using MyWebAPIProject.Data;
 
 namespace MyWebAPIProject.Model
 {
     public class PlayerRepository : IPlayerRepository
     {
+        private readonly IConfiguration _configuration;
         private readonly ApplicationDbContext _applicationDbContext;
 
-        public PlayerRepository(ApplicationDbContext applicationDbContext)
+        public PlayerRepository(ApplicationDbContext applicationDbContext, IConfiguration configuration)
         {
             _applicationDbContext = applicationDbContext;
+            _configuration = configuration;
         }
         public async Task<Player> AddPlayer(Player player)
         {
@@ -49,6 +55,22 @@ namespace MyWebAPIProject.Model
         public async Task<bool> SamePlayerExists(string playerName)
         {
             return await _applicationDbContext.Players.AnyAsync(p => p.Name == playerName);
+        }
+        public string CreateToken()
+        {
+            var key = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(_configuration
+                .GetSection("AppSettings:Token").Value));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
+            var token = new JwtSecurityToken(
+                claims: new List<Claim>
+                {
+                    new Claim("firstName", "Amin"),
+                    new Claim("lastName", "Khosravi")
+                },
+                signingCredentials: creds,
+                expires: DateTime.UtcNow.AddMinutes(15)
+                );
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

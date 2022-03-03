@@ -55,6 +55,50 @@
                     </div>
                 </div>
                 <span class="text-danger" asp-validation-for="Email"></span> <br />
+                <label asp-for="FirstName"></label>
+                <div class="input-group my-2">
+                    <div class="input-group-text">
+                        <span><i class="bi bi-person text-secondary"></i></span>
+                    </div>
+                    <input asp-for="FirstName" name="FirstName" class="form-control" type="text" />
+                    <div class="input-group-text" data-bs-placement="bottom" title="Enter Your First Name Here">
+                        <span><i class="bi bi-question-circle text-secondary"></i></span>
+                    </div>
+                </div>
+                <span class="text-danger" asp-validation-for="FirstName"></span> <br />
+                <label asp-for="LastName"></label>
+                <div class="input-group my-2">
+                    <div class="input-group-text">
+                        <span><i class="bi bi-person text-secondary"></i></span>
+                    </div>
+                    <input asp-for="LastName" name="LastName" class="form-control" type="text" />
+                    <div class="input-group-text" data-bs-placement="bottom" title="Enter Your Last Name Here">
+                        <span><i class="bi bi-question-circle text-secondary"></i></span>
+                    </div>
+                </div>
+                <span class="text-danger" asp-validation-for="LastName"></span> <br />
+                <label asp-for="Profession"></label>
+                <div class="input-group my-2">
+                    <div class="input-group-text">
+                        <span><i class="bi bi-screwdriver text-secondary"></i></span>
+                    </div>
+                    <input asp-for="Profession" name="Profession" class="form-control" type="text" />
+                    <div class="input-group-text" data-bs-placement="bottom" title="Enter Your Profession Here">
+                        <span><i class="bi bi-question-circle text-secondary"></i></span>
+                    </div>
+                </div>
+                <span class="text-danger" asp-validation-for="Profession"></span> <br />
+                <label asp-for="City"></label>
+                <div class="input-group my-2">
+                    <div class="input-group-text">
+                        <span><i class="bi bi-building text-secondary"></i></span>
+                    </div>
+                    <input asp-for="City" name="City" class="form-control" type="text" />
+                    <div class="input-group-text" data-bs-placement="bottom" title="Enter Your City Here">
+                        <span><i class="bi bi-question-circle text-secondary"></i></span>
+                    </div>
+                </div>
+                <span class="text-danger" asp-validation-for="City"></span> <br />
                 <button class="btn btn-primary text-center mt-2">Register</button>
 
             </form>

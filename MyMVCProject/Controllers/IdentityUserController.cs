@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using System.Net.Mail;
 using System.Net;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MyMVCProject.Controllers
 {
@@ -43,7 +45,27 @@ namespace MyMVCProject.Controllers
                 }
                 return View(registerViewModel);
             }
-            TempData["success"] = "Registered Successfully";
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim("FirstName", registerViewModel.FirstName ?? string.Empty),
+                new Claim("LastName", registerViewModel.LastName ?? string.Empty),
+                new Claim("City", registerViewModel.City ?? string.Empty),
+                new Claim("Profession", registerViewModel.Profession ?? string.Empty)
+            };
+            await _userManager.AddClaimsAsync(user, claims);
+            var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var confirmationLink = Url.ActionLink(action:"ConfirmEmail", controller:"IdentityUser",
+                values: new { userId = user.Id, token = confirmationToken });
+            var message = new MailMessage("siavashmehmandoost@gmail.com", registerViewModel.Email,
+                "Confirm Your Email Here", $"Click this link to confirm your email : {confirmationLink}");
+            using(var emailClient = new SmtpClient("smtp.gmail.com", 587))
+            {
+                emailClient.EnableSsl = true;
+                emailClient.Credentials = new NetworkCredential(
+                    "siavashmehmandoost@gmail.com", "azaoawwhxtiyvwja");
+                await emailClient.SendMailAsync(message);
+            }
+            TempData["success"] = "Registered Successfully, Now check your email to confirm your account";
             return RedirectToAction("LoginUser", "IdentityUser");
         }
         public ViewResult LoginUser() => View();
@@ -54,9 +76,18 @@ namespace MyMVCProject.Controllers
                 loginViewModel.RememberMe, false);
             if(!result.Succeeded)
             {
-                ModelState.AddModelError("", "Invalid UserName or Password");
-                TempData["badrequest"] = "Invalid UserName or Password";
-                return View(loginViewModel);
+                var user = await _userManager.FindByNameAsync(loginViewModel.UserName);
+                if (!await _userManager.IsEmailConfirmedAsync(user))
+                {
+                    TempData["badrequest"] = "Email not confirmed";
+                    return View(loginViewModel);
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid UserName or Password");
+                    TempData["badrequest"] = "Invalid UserName or Password";
+                    return View(loginViewModel);
+                }
             }
             TempData["success"] = "Logged In Successfully";
             return RedirectToAction("Index", "Home");
@@ -64,6 +95,7 @@ namespace MyMVCProject.Controllers
         [HttpPost]
         public async Task<IActionResult> LogoutUser()
         {
+            HttpContext.Session.Clear();
             await _signInManager.SignOutAsync();
             TempData["success"] = "Logged out Successfully";
             return RedirectToAction("Index", "Home");
@@ -126,8 +158,76 @@ namespace MyMVCProject.Controllers
                     return View(resetPasswordViewModel);
                 }
             }
-            TempData["success"] = "Password Reset Successfully";
+            TempData["success"] = $"Password Reset Successfully for {user.UserName}";
             return RedirectToAction("LoginUser", "IdentityUser");
+        }
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if(user == null)
+            {
+                TempData["notfound"] = "Not found such a user";
+                return View();
+            }
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            if(!result.Succeeded)
+            {
+                foreach(var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                    TempData["badrequest"] = "Something went wrong";
+                }
+                return View();
+            }
+            TempData["success"] = "Successfully confirmed email, You can log in now";
+            return RedirectToAction("LoginUser", "IdentityUser");
+        }
+        [Authorize]
+        public async Task<IActionResult> UserProfile()
+        {
+            UserProfieViewModel profileModel = new UserProfieViewModel();
+            var (user, userName, email, cityClaim, firstNameClaim, lastNameClaim, professionClaim) = await GetUserInfo();
+
+            profileModel.UserName = userName;
+            profileModel.Email = email;
+            profileModel.FirstName = firstNameClaim?.Value;
+            profileModel.LastName = lastNameClaim?.Value;
+            profileModel.City = cityClaim?.Value;
+            profileModel.Profession = professionClaim?.Value;
+            return View(profileModel);
+        }
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> UserProfile(UserProfieViewModel profileModel)
+        {
+            var (user, userName, email, cityClaim, firstNameClaim, lastNameClaim, professionClaim) = await GetUserInfo();
+            try
+            {
+                await _userManager.ReplaceClaimAsync(user, cityClaim, new Claim(cityClaim.Type, profileModel.City));
+                await _userManager.ReplaceClaimAsync(user, firstNameClaim, new Claim(firstNameClaim.Type, profileModel.FirstName));
+                await _userManager.ReplaceClaimAsync(user, lastNameClaim, new Claim(lastNameClaim.Type, profileModel.LastName));
+                await _userManager.ReplaceClaimAsync(user, professionClaim, new Claim(professionClaim.Type, profileModel.Profession));
+            }
+            catch
+            {
+                ModelState.AddModelError("", "Something went wrong while saving data");
+                TempData["badrequest"] = "Something went wrong";
+
+            }
+            TempData["success"] = "User profile updated successfully";
+            return View();
+        }
+        private async Task<( MyUser, string, string, Claim, Claim, Claim, Claim)> GetUserInfo()
+        {
+            var userName = User.Identity.Name;
+            var user = await _userManager.FindByNameAsync(userName);
+            var email = await _userManager.GetEmailAsync(user);
+            var claims = await _userManager.GetClaimsAsync(user);
+            var cityClaim = claims.FirstOrDefault(c => c.Type == "City");
+            var firstNameClaim = claims.FirstOrDefault(c => c.Type == "FirstName");
+            var lastNameClaim = claims.FirstOrDefault(c => c.Type == "LastName");
+            var professionClaim = claims.FirstOrDefault(c => c.Type == "Profession");
+            return (user, userName, email, cityClaim, firstNameClaim, lastNameClaim, professionClaim);
         }
     }
 }

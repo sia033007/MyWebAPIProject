@@ -1,0 +1,8 @@
+﻿@font-face {
+    font-family: 'arshia';
+    src: url('~/font/pixelboy-Arshia.eot?#') format('eot'), url('~/font/pixelboy-Arshia.woff') format('woff'), url('~/font/pixelboy-Arshia.ttf') format('truetype');
+}
+h1{
+    font-family:arshia;
+    font-size:large;
+}
