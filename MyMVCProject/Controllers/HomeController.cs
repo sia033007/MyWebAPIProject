@@ -63,8 +63,8 @@ namespace MyMVCProject.Controllers
                 token = await CreateToken();
             }
             List<Player> players = new List<Player>();
-            //var client = _clientFactory.CreateClient("MyClient");
-            //players = await client.GetFromJsonAsync<List<Player>>("player");
+            ////var client = _clientFactory.CreateClient("MyClient");
+            ////players = await client.GetFromJsonAsync<List<Player>>("player");
             var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:42045/api/player");
             var client = _clientFactory.CreateClient();
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.token);

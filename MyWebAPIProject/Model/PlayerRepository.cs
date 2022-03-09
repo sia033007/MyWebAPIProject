@@ -56,21 +56,21 @@ namespace MyWebAPIProject.Model
         {
             return await _applicationDbContext.Players.AnyAsync(p => p.Name == playerName);
         }
-        public string CreateToken()
-        {
-            var key = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(_configuration
-                .GetSection("AppSettings:Token").Value));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
-            var token = new JwtSecurityToken(
-                claims: new List<Claim>
-                {
-                    new Claim("firstName", "Amin"),
-                    new Claim("lastName", "Khosravi")
-                },
-                signingCredentials: creds,
-                expires: DateTime.UtcNow.AddMinutes(15)
-                );
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
+        //public string CreateToken()
+        //{
+        //    var key = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(_configuration
+        //        .GetSection("AppSettings:Token").Value));
+        //    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
+        //    var token = new JwtSecurityToken(
+        //        claims: new List<Claim>
+        //        {
+        //            new Claim("firstName", "Amin"),
+        //            new Claim("lastName", "Khosravi")
+        //        },
+        //        signingCredentials: creds,
+        //        expires: DateTime.UtcNow.AddMinutes(15)
+        //        );
+        //    return new JwtSecurityTokenHandler().WriteToken(token);
+        //}
     }
 }

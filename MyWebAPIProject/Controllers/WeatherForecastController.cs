@@ -6,6 +6,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using MyWebAPIProject.Model;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace MyWebAPIProject.Controllers
 {
@@ -20,11 +24,13 @@ namespace MyWebAPIProject.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IPlayerRepository _playerRepository;
+        private readonly IConfiguration _configuration;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IPlayerRepository playerRepository )
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IPlayerRepository playerRepository, IConfiguration configuration )
         {
             _logger = logger;
             _playerRepository = playerRepository;
+            _configuration = configuration;
         }
 
         //[HttpGet]
@@ -50,8 +56,24 @@ namespace MyWebAPIProject.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             });
             return Ok(new {
-                expireAt = DateTime.UtcNow.AddMinutes(15), token = _playerRepository.CreateToken()
+                expireAt = DateTime.UtcNow.AddMinutes(15), token = CreateToken()
             });
+        }
+        public string CreateToken()
+        {
+            var key = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(_configuration
+                .GetSection("AppSettings:Token").Value));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
+            var token = new JwtSecurityToken(
+                claims: new List<Claim>
+                {
+                    new Claim("firstName", "Amin"),
+                    new Claim("lastName", "Khosravi")
+                },
+                signingCredentials: creds,
+                expires: DateTime.UtcNow.AddMinutes(15)
+                );
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

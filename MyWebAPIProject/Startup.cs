@@ -80,6 +80,13 @@ namespace MyWebAPIProject
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            //app.UseCookiePolicy();
+            //app.UseCors(options=> {
+
+            //    options.AllowAnyMethod();
+            //    options.AllowAnyHeader();
+            //    options.AllowAnyOrigin();
+            //});
             app.UseAuthentication();
 
             app.UseAuthorization();

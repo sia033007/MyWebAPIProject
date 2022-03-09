@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MyWebAPIProject.Model
 {
-    public class Genre
+    public class Director
     {
         public int Id { get; set; }
         public string Name { get; set; }

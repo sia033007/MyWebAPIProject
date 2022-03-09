@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyWebAPIProject.Data;
 
 namespace MyWebAPIProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220305150111_NewDataAdded")]
+    partial class NewDataAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -288,133 +290,133 @@ namespace MyWebAPIProject.Migrations
                             Id = 1,
                             DirectorId = 4,
                             Name = "Avatar",
-                            ReleaseDate = new DateTime(2022, 3, 8, 21, 36, 23, 397, DateTimeKind.Local).AddTicks(3233)
+                            ReleaseDate = new DateTime(2022, 3, 5, 18, 31, 9, 363, DateTimeKind.Local).AddTicks(4856)
                         },
                         new
                         {
                             Id = 2,
                             DirectorId = 4,
                             Name = "Terminator",
-                            ReleaseDate = new DateTime(2022, 3, 8, 21, 36, 23, 625, DateTimeKind.Local).AddTicks(3363)
+                            ReleaseDate = new DateTime(2022, 3, 5, 18, 31, 9, 370, DateTimeKind.Local).AddTicks(4860)
                         },
                         new
                         {
                             Id = 3,
                             DirectorId = 2,
                             Name = "Hateful Eight",
-                            ReleaseDate = new DateTime(2022, 3, 8, 21, 36, 23, 625, DateTimeKind.Local).AddTicks(3363)
+                            ReleaseDate = new DateTime(2022, 3, 5, 18, 31, 9, 370, DateTimeKind.Local).AddTicks(4860)
                         },
                         new
                         {
                             Id = 4,
                             DirectorId = 2,
                             Name = "Inglorious Bastards",
-                            ReleaseDate = new DateTime(2022, 3, 8, 21, 36, 23, 625, DateTimeKind.Local).AddTicks(3363)
+                            ReleaseDate = new DateTime(2022, 3, 5, 18, 31, 9, 370, DateTimeKind.Local).AddTicks(4860)
                         },
                         new
                         {
                             Id = 5,
                             DirectorId = 2,
                             Name = "Django Unchained",
-                            ReleaseDate = new DateTime(2022, 3, 8, 21, 36, 23, 625, DateTimeKind.Local).AddTicks(3363)
+                            ReleaseDate = new DateTime(2022, 3, 5, 18, 31, 9, 370, DateTimeKind.Local).AddTicks(4860)
                         },
                         new
                         {
                             Id = 6,
                             DirectorId = 1,
                             Name = "Interstellar",
-                            ReleaseDate = new DateTime(2022, 3, 8, 21, 36, 23, 625, DateTimeKind.Local).AddTicks(3363)
+                            ReleaseDate = new DateTime(2022, 3, 5, 18, 31, 9, 370, DateTimeKind.Local).AddTicks(4860)
                         },
                         new
                         {
                             Id = 7,
                             DirectorId = 1,
                             Name = "Prestige",
-                            ReleaseDate = new DateTime(2022, 3, 8, 21, 36, 23, 625, DateTimeKind.Local).AddTicks(3363)
+                            ReleaseDate = new DateTime(2022, 3, 5, 18, 31, 9, 370, DateTimeKind.Local).AddTicks(4860)
                         },
                         new
                         {
                             Id = 8,
                             DirectorId = 1,
                             Name = "Inception",
-                            ReleaseDate = new DateTime(2022, 3, 8, 21, 36, 23, 625, DateTimeKind.Local).AddTicks(3363)
+                            ReleaseDate = new DateTime(2022, 3, 5, 18, 31, 9, 370, DateTimeKind.Local).AddTicks(4860)
                         },
                         new
                         {
                             Id = 9,
                             DirectorId = 5,
                             Name = "The Lord of the Rings",
-                            ReleaseDate = new DateTime(2022, 3, 8, 21, 36, 23, 625, DateTimeKind.Local).AddTicks(3363)
+                            ReleaseDate = new DateTime(2022, 3, 5, 18, 31, 9, 370, DateTimeKind.Local).AddTicks(4860)
                         },
                         new
                         {
                             Id = 10,
                             DirectorId = 5,
                             Name = "The Hobbit",
-                            ReleaseDate = new DateTime(2022, 3, 8, 21, 36, 23, 625, DateTimeKind.Local).AddTicks(3363)
+                            ReleaseDate = new DateTime(2022, 3, 5, 18, 31, 9, 370, DateTimeKind.Local).AddTicks(4860)
                         },
                         new
                         {
                             Id = 11,
                             DirectorId = 3,
                             Name = "The Wolf of Wall Street",
-                            ReleaseDate = new DateTime(2022, 3, 8, 21, 36, 23, 625, DateTimeKind.Local).AddTicks(3363)
+                            ReleaseDate = new DateTime(2022, 3, 5, 18, 31, 9, 370, DateTimeKind.Local).AddTicks(4860)
                         },
                         new
                         {
                             Id = 12,
                             DirectorId = 3,
                             Name = "Taxi Driver",
-                            ReleaseDate = new DateTime(2022, 3, 8, 21, 36, 23, 625, DateTimeKind.Local).AddTicks(3363)
+                            ReleaseDate = new DateTime(2022, 3, 5, 18, 31, 9, 370, DateTimeKind.Local).AddTicks(4860)
                         },
                         new
                         {
                             Id = 13,
                             DirectorId = 6,
                             Name = "Schindler's List",
-                            ReleaseDate = new DateTime(2022, 3, 8, 21, 36, 23, 625, DateTimeKind.Local).AddTicks(3363)
+                            ReleaseDate = new DateTime(2022, 3, 5, 18, 31, 9, 370, DateTimeKind.Local).AddTicks(4860)
                         },
                         new
                         {
                             Id = 14,
                             DirectorId = 6,
                             Name = "Adventures of Tin Tin",
-                            ReleaseDate = new DateTime(2022, 3, 8, 21, 36, 23, 625, DateTimeKind.Local).AddTicks(3363)
+                            ReleaseDate = new DateTime(2022, 3, 5, 18, 31, 9, 370, DateTimeKind.Local).AddTicks(4860)
                         },
                         new
                         {
                             Id = 15,
                             DirectorId = 7,
                             Name = "Godfather",
-                            ReleaseDate = new DateTime(2022, 3, 8, 21, 36, 23, 625, DateTimeKind.Local).AddTicks(3363)
+                            ReleaseDate = new DateTime(2022, 3, 5, 18, 31, 9, 370, DateTimeKind.Local).AddTicks(4860)
                         },
                         new
                         {
                             Id = 16,
                             DirectorId = 8,
                             Name = "Green Mile",
-                            ReleaseDate = new DateTime(2022, 3, 8, 21, 36, 23, 625, DateTimeKind.Local).AddTicks(3363)
+                            ReleaseDate = new DateTime(2022, 3, 5, 18, 31, 9, 370, DateTimeKind.Local).AddTicks(4860)
                         },
                         new
                         {
                             Id = 17,
                             DirectorId = 8,
                             Name = "Shawshank Redemption",
-                            ReleaseDate = new DateTime(2022, 3, 8, 21, 36, 23, 625, DateTimeKind.Local).AddTicks(3363)
+                            ReleaseDate = new DateTime(2022, 3, 5, 18, 31, 9, 370, DateTimeKind.Local).AddTicks(4860)
                         },
                         new
                         {
                             Id = 18,
                             DirectorId = 9,
                             Name = "Se7en",
-                            ReleaseDate = new DateTime(2022, 3, 8, 21, 36, 23, 625, DateTimeKind.Local).AddTicks(3363)
+                            ReleaseDate = new DateTime(2022, 3, 5, 18, 31, 9, 370, DateTimeKind.Local).AddTicks(4860)
                         },
                         new
                         {
                             Id = 19,
                             DirectorId = 9,
                             Name = "Fight Club",
-                            ReleaseDate = new DateTime(2022, 3, 8, 21, 36, 23, 625, DateTimeKind.Local).AddTicks(3363)
+                            ReleaseDate = new DateTime(2022, 3, 5, 18, 31, 9, 370, DateTimeKind.Local).AddTicks(4860)
                         });
                 });
 

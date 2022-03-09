@@ -8,6 +8,7 @@ using MyWebAPIProject.Model;
 using MyWebAPIProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 
 namespace MyWebAPIProject.Controllers
 {
